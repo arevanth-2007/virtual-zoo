@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Virtual Zoo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            🐾 Virtual Zoo
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#" id="favoritesLink">Favorites</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <h1 class="animate-fade-up">Contact Us</h1>
+        <p class="animate-fade-up" style="animation-delay: 0.2s">Have questions or feedback? We'd love to hear from you!</p>
+    </section>
+
+    <div class="container animate-fade-up" style="animation-delay: 0.4s">
+        
+        <div style="display: flex; flex-direction: column; gap: 4rem;">
+            
+            <!-- Contact Form Section -->
+            <div class="contact-form-wrapper new-card" style="width: 100%;">
+                <h2 class="section-title" style="margin-bottom: 2rem;">Send a Message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="contactName" class="form-control" placeholder="Your Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="contactEmail" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="contactSubject" class="form-control" placeholder="What is this about?" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="contactMessage" class="form-control" rows="5" placeholder="Write your message here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message 📨</button>
+                    <div id="contactSuccess" class="success-msg">✅ Thank you! Your message has been received.</div>
+                    <div id="contactError" style="color: var(--danger); text-align: center; margin-top: 1rem; display: none;">Please fill out all fields.</div>
+                </form>
+            </div>
+
+            <!-- Contact Info Section -->
+            <div class="info-cards-grid">
+                <div class="new-card" style="text-align: center;">
+                    <div class="feature-icon">📧</div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Email</h3>
+                    <p style="font-weight: 600;">virtualzoo@gmail.com</p>
+                </div>
+                <div class="new-card" style="text-align: center;">
+                    <div class="feature-icon">🌐</div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary);">GitHub</h3>
+                    <p style="font-weight: 600;">github.com/your-username/virtual-zoo</p>
+                </div>
+                <div class="new-card" style="text-align: center;">
+                    <div class="feature-icon">📍</div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Location</h3>
+                    <p style="font-weight: 600;">India</p>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-list">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                
+                <div class="new-card faq-item">
+                    <button class="faq-question">How do I create an account?</button>
+                    <div class="faq-answer">
+                        Click on the Login page and use the Sign Up button to create your free account in seconds.
+                    </div>
+                </div>
+                
+                <div class="new-card faq-item">
+                    <button class="faq-question">How are animal images sourced?</button>
+                    <div class="faq-answer">
+                        All animal images are fetched in real-time from Pexels API — a free, high-quality stock photo platform.
+                    </div>
+                </div>
+                
+                <div class="new-card faq-item">
+                    <button class="faq-question">Can I save my favorite animals?</button>
+                    <div class="faq-answer">
+                        Yes! Once logged in, click the Favorite button on any animal detail page to save it to your collection.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            let isExpired = true;
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    isExpired = payload.exp * 1000 < Date.now();
+                } catch (e) { }
+            }
+
+            if (!token || isExpired) {
+                if (isExpired && token) alert('Session expired, please login again');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Contact Form Logic
+            const contactForm = document.getElementById('contactForm');
+            const contactSuccess = document.getElementById('contactSuccess');
+            const contactError = document.getElementById('contactError');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                contactSuccess.style.display = 'none';
+                contactError.style.display = 'none';
+
+                const name = document.getElementById('contactName').value.trim();
+                const email = document.getElementById('contactEmail').value.trim();
+                const subject = document.getElementById('contactSubject').value.trim();
+                const message = document.getElementById('contactMessage').value.trim();
+
+                if(!name || !email || !subject || !message) {
+                    contactError.style.display = 'block';
+                    return;
+                }
+
+                // Simulate sending message
+                contactSuccess.style.display = 'block';
+                contactForm.reset();
+                setTimeout(() => {
+                    contactSuccess.style.display = 'none';
+                }, 5000);
+            });
+
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-question');
+                btn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    // Close all
+                    faqItems.forEach(i => i.classList.remove('active'));
+                    // Open if it wasn't active
+                    if(!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

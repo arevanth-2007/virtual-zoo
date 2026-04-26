@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Virtual Zoo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            🐾 Virtual Zoo
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#" id="favoritesLink">Favorites</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <h1 class="animate-fade-up">About Virtual Zoo</h1>
+        <p class="animate-fade-up" style="animation-delay: 0.2s">A digital wildlife experience built with passion</p>
+    </section>
+
+    <div class="container animate-fade-up" style="animation-delay: 0.4s">
+        <h2 class="section-title">What is Virtual Zoo?</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto; font-size: 1.15rem; color: var(--text-secondary);">
+            Virtual Zoo is a full-stack web application that brings the zoo experience to your browser. 
+            Explore 48 animals from around the world, learn fascinating facts, view beautiful photos, 
+            and save your favorites — all in one place.
+        </p>
+        
+        <div class="features-grid">
+            <div class="new-card" style="text-align: center;">
+                <span class="feature-icon">🐾</span>
+                <h3>48 Animals</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Explore a wide range of animals from mammals to invertebrates</p>
+            </div>
+            <div class="new-card" style="text-align: center;">
+                <span class="feature-icon">📸</span>
+                <h3>Real Photos</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Beautiful high-quality images powered by Pexels API</p>
+            </div>
+            <div class="new-card" style="text-align: center;">
+                <span class="feature-icon">❤️</span>
+                <h3>Favorites</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Save and manage your favorite animals with a personal account</p>
+            </div>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 6rem;">Built With</h2>
+        <div class="tech-grid">
+            <div class="new-card">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Frontend</h3>
+                <p style="font-weight: 600;">HTML5, CSS3, JavaScript</p>
+            </div>
+            <div class="new-card">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Backend</h3>
+                <p style="font-weight: 600;">Node.js, Express.js</p>
+            </div>
+            <div class="new-card">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Database</h3>
+                <p style="font-weight: 600;">MongoDB, Mongoose</p>
+            </div>
+            <div class="new-card">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">API & Auth</h3>
+                <p style="font-weight: 600;">Pexels API, JWT Authentication</p>
+            </div>
+            <div class="new-card">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Tools</h3>
+                <p style="font-weight: 600;">Git, GitHub, VS Code</p>
+            </div>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 6rem;">Meet the Developer</h2>
+        <div class="new-card dev-card">
+            <div class="dev-avatar">👨‍💻</div>
+            <h2>BTech CSE Student</h2>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">2nd Year — Computer Science & Engineering</p>
+            <p style="margin-top: 1.5rem; line-height: 1.8;">
+                Passionate about full-stack web development. Built this project to explore modern web technologies 
+                including REST APIs, JWT authentication, NoSQL databases, and responsive UI design.
+            </p>
+            <div class="dev-skills">HTML · CSS · JavaScript · Node.js · MongoDB · Express</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            let isExpired = true;
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    isExpired = payload.exp * 1000 < Date.now();
+                } catch (e) { }
+            }
+
+            if (!token || isExpired) {
+                if (isExpired && token) alert('Session expired, please login again');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
