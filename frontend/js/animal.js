@@ -66,12 +66,12 @@ function renderAnimalDetails(animal) {
     const isFav = Array.isArray(user.favorites) ? user.favorites.includes(animal.name) : false;
 
     let funFactsHTML = '';
-    if (animal.funFacts && animal.funFacts.length > 0) {
+    if (animal.facts && animal.facts.length > 0) {
         funFactsHTML = `
             <div class="fun-facts">
                 <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Fun Facts</h3>
                 <ul>
-                    ${animal.funFacts.map(fact => `<li>${fact}</li>`).join('')}
+                    ${animal.facts.map(fact => `<li>${fact}</li>`).join('')}
                 </ul>
             </div>
         `;
