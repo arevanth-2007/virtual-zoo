@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://virtual-zoo-backend.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const res = await fetch(`${API_URL}/animals/${encodeURIComponent(animalName)}`);
-        
+
         if (res.status === 404) {
             document.getElementById('detailContainer').innerHTML = '<h2>Animal not found</h2>';
             return;
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function renderAnimalDetails(animal) {
     const container = document.getElementById('detailContainer');
-    
+
     // Process images
     const placeholder = `https://placehold.co/400x300?text=${encodeURIComponent(animal.name)}`;
     const fallbackImage = animal.image || placeholder;
@@ -64,7 +64,7 @@ function renderAnimalDetails(animal) {
     // Check if favorited
     const user = JSON.parse(localStorage.getItem('user')) || {};
     const isFav = Array.isArray(user.favorites) ? user.favorites.includes(animal.name) : false;
-    
+
     let funFactsHTML = '';
     if (animal.funFacts && animal.funFacts.length > 0) {
         funFactsHTML = `
@@ -153,7 +153,7 @@ function renderAnimalDetails(animal) {
                 const updatedFavorites = await res.json();
                 user.favorites = updatedFavorites;
                 localStorage.setItem('user', JSON.stringify(user));
-                
+
                 const nowFav = updatedFavorites.includes(animal.name);
                 favBtn.innerHTML = nowFav ? '❤️ Remove Favorite' : '❤️ Favorite';
                 favBtn.style.backgroundColor = nowFav ? '#e65100' : 'var(--primary-color)';
